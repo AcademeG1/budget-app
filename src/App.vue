@@ -1,48 +1,61 @@
 <template>
-  <fragment>
+  <div>
+    <FormA @submitForm="onFormSubmit" />
     <TotalBalance :total-balance="sumTotal" />
-    <BudgetList @deleteItem="onDeleteItem" :list="list" />
-  </fragment>
+    <BudgetList @delete-Item="onDeleteItem" :list="list" />
+  </div>
 </template>
 
 <script>
-import BudgetList from '@/components/BudgetList'
-import TotalBalance from './components/TotalBalance.vue';
+import BudgetList from "@/components/BudgetList";
+import TotalBalance from "@/components/TotalBalance";
+import FormA from "@/components/FormA";
 
 export default {
-
-  name: 'App',
+  name: "App",
   components: {
     BudgetList,
     TotalBalance,
+    FormA,
   },
   computed: {
     sumTotal() {
-      return Object.values(this.list).reduce((acc, item) => acc + item.value, 0)
-    }
+      return Object.values(this.list).reduce(
+        (acc, item) => acc + item.value,
+        0
+      );
+    },
   },
   data: () => ({
     list: {
       1: {
-        type: 'INCOME',
+        type: "INCOME",
         value: 100,
-        comment: 'Some comment',
-        id: 1
+        comment: "Some comment",
+        id: 1,
       },
       2: {
-        type: 'OUTCOME',
+        type: "OUTCOME",
         value: -50,
-        comment: 'Some outcome comment',
-        id: 2
-      }
-    }
+        comment: "Some outcome comment",
+        id: 2,
+      },
+    },
   }),
   methods: {
     onDeleteItem(id) {
-      this.$delete(this.list, id)
-    }
-  }
-}
+      this.$delete(this.list, id);
+    },
+    onFormSubmit(data) {
+      const newObj = {
+        ...data,
+        id: String(Math.random()),
+        value: data.type === "OUTCOME" ? -data.value : data.value,
+      };
+      this.$set(this.list, newObj.id, newObj);
+    },
+  },
+};
 </script>
 
 <style>

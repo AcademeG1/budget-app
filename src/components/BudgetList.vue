@@ -2,60 +2,47 @@
   <div class="budget-list-wrap">
     <ElCard :header="header">
       <template v-if="isEmptyListItem">
-        <div class="list-item" v-for="(item, prop) in list" :key="prop">
-        <span class="budget-comment">{{item.comment}}</span>
-        <span class="budget-value">{{item.value}}</span>
-        <ElButton type="danger" size="mini" @click="deleteItem(item.id)">Delete</ElButton>
-      </div>
+        <BudgetListItem :list="list" @onDeleteItem="deleteItem" />
       </template>
-        <ElAlert v-else type="info" :title="emptyTitle" :closable="false"/>
+      <ElAlert v-else type="info" :title="emptyTitle" :closable="false" />
     </ElCard>
   </div>
 </template>
 
 <script>
-
+import BudgetListItem from "./BudgetListItem.vue";
 export default {
-    name: 'BudgetList',
-    props: {
-        list: {
-            type: Object,
-            default: () => ({}),
-        }
+  name: "BudgetList",
+  components: {
+    BudgetListItem,
+  },
+  props: {
+    list: {
+      type: Object,
+      default: () => ({}),
     },
-    data: () => ({
-        header: 'Some text',
-        emptyTitle: 'List item empty',
-    }),
-    computed: {
-      isEmptyListItem() {
-        return Boolean(Object.keys(this.list).length)
-      }
+  },
+  data: () => ({
+    header: "Some text",
+    emptyTitle: "List item empty",
+  }),
+  computed: {
+    isEmptyListItem() {
+      return Boolean(Object.keys(this.list).length);
     },
-    methods: {
-      deleteItem(id) {
-        this.$emit('deleteItem', id);
-      }
-    }
-}
+  },
+  methods: {
+    deleteItem(id) {
+      this.$emit("delete-Item", id);
+    },
+  },
+};
 </script>
 
 <style scoped>
-  .budget-list-wrap {
-    text-align: center;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .list-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-  }
-
-  .budget-value {
-    font-weight: bold;
-    margin-left: auto;
-    margin-right: 20px;
-  }
+.budget-list-wrap {
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
 </style>

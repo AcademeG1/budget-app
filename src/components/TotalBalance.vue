@@ -1,6 +1,6 @@
 <template>
   <div class="total-value">
-    {{total}}
+    {{totalBalance}}
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   name: 'TotalBalance',
   props: {
-    total: {
+    totalBalance: {
       type: Number,
       default: 0,
     }
