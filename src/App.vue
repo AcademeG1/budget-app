@@ -2,7 +2,8 @@
   <div>
     <FormA @submitForm="onFormSubmit" />
     <TotalBalance :total-balance="sumTotal" />
-    <BudgetList @delete-Item="onDeleteItem" :list="list" />
+    <AppFilter @on-filter-select="onFilterSelect" :active="filter" />
+    <BudgetList @delete-Item="onDeleteItem" :list="filterBudget()" />
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import BudgetList from "@/components/BudgetList";
 import TotalBalance from "@/components/TotalBalance";
 import FormA from "@/components/FormA";
+import AppFilter from "./components/AppFilter.vue";
 
 export default {
   name: "App",
@@ -17,6 +19,7 @@ export default {
     BudgetList,
     TotalBalance,
     FormA,
+    AppFilter,
   },
   computed: {
     sumTotal() {
@@ -27,6 +30,7 @@ export default {
     },
   },
   data: () => ({
+    filter: "all",
     list: {
       1: {
         type: "INCOME",
@@ -53,6 +57,27 @@ export default {
         value: data.type === "OUTCOME" ? -data.value : data.value,
       };
       this.$set(this.list, newObj.id, newObj);
+    },
+    filterBudget() {
+      switch (this.filter) {
+        case "income":
+          return Object.fromEntries(
+            Object.entries(this.list).filter(
+              (value) => value[1].type === "INCOME"
+            )
+          );
+        case "outcome":
+          return Object.fromEntries(
+            Object.entries(this.list).filter(
+              (value) => value[1].type === "OUTCOME"
+            )
+          );
+        default:
+          return this.list;
+      }
+    },
+    onFilterSelect(filter) {
+      this.filter = filter;
     },
   },
 };

@@ -2,7 +2,14 @@
   <div>
     <div class="list-item" v-for="(item, prop) in list" :key="prop">
       <span class="budget-comment">{{ item.comment }}</span>
-      <span class="budget-value">{{ item.value }}</span>
+      <i v-if="item.type === 'INCOME'" class="el-icon-top"></i>
+      <i v-else class="el-icon-bottom"></i>
+      <span
+        class="budget-value"
+        :class="item.type === 'INCOME' ? 'green' : 'red'"
+        >{{ item.value }}</span
+      >
+
       <ElButton type="danger" size="mini" @click="dialogVisible = true"
         >Delete</ElButton
       >
@@ -34,11 +41,7 @@ export default {
     dialogVisible: false,
   }),
   methods: {
-    // onDeleteItem(id) {
-    // this.$emit("onDeleteItem", id);
-    // },
     handleClose(id) {
-      console.log(id);
       this.$emit("onDeleteItem", id);
     },
   },
@@ -56,5 +59,11 @@ export default {
   font-weight: bold;
   margin-left: auto;
   margin-right: 20px;
+}
+.green {
+  color: green;
+}
+.red {
+  color: red;
 }
 </style>
