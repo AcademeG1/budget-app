@@ -1,9 +1,37 @@
-import Vue from 'vue'
-import App from './App.vue';
-import './plugins/index.js'
+import store from "./store";
+// import "./plugins/index.js";
+import App from "./App.vue";
+import { createApp } from "vue";
+import "element-plus/dist/index.css";
+// import "element-plus/theme-chalk/index.css";
+import {
+  ElButton,
+  ElCard,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElAlert,
+  ElDialog,
+} from "element-plus";
 
-Vue.config.productionTip = false;
+const elements = [
+  ElButton,
+  ElCard,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElAlert,
+  ElDialog,
+];
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+const app = createApp(App);
+
+elements.forEach((El) => {
+  app.component(El.name, El);
+});
+
+app.use(store).mount("#app");

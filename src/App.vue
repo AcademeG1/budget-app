@@ -2,7 +2,7 @@
   <div>
     <FormA @submitForm="onFormSubmit" />
     <TotalBalance :total-balance="sumTotal" />
-    <AppFilter @on-filter-select="onFilterSelect" :active="filter" />
+    <AppFilter />
     <BudgetList @delete-Item="onDeleteItem" :list="filterBudget()" />
   </div>
 </template>
@@ -30,7 +30,6 @@ export default {
     },
   },
   data: () => ({
-    filter: "all",
     list: {
       1: {
         type: "INCOME",
@@ -76,9 +75,9 @@ export default {
           return this.list;
       }
     },
-    onFilterSelect(filter) {
-      this.filter = filter;
-    },
+    // onFilterSelect(filter) {
+    //   this.filter = filter;
+    // },
   },
 };
 </script>

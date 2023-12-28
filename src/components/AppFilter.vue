@@ -22,17 +22,22 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
+
 export default {
   name: "AppFilter",
-  props: {
-    active: {
-      type: String,
-      default: "all",
+  computed: {
+    ...mapGetters("budgets", ["getFilter"]),
+    active: function () {
+      return this.getFilter;
     },
   },
   methods: {
+    ...mapActions("budgets", ["updateFilter"]),
     onFilterSelect(active) {
-      this.$emit("on-filter-select", active);
+      console.log(active);
+      this.updateFilter(active);
     },
   },
 };
