@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="list-item" v-for="(item, prop) in list" :key="prop">
+    <div class="list-item" v-for="(item, index) in list" :key="index">
       <span class="budget-comment">{{ item.comment }}</span>
       <i v-if="item.type === 'INCOME'" class="el-icon-top"></i>
       <i v-else class="el-icon-bottom"></i>
@@ -9,26 +9,17 @@
         :class="item.type === 'INCOME' ? 'green' : 'red'"
         >{{ item.value }}</span
       >
+      <div>
+        <ElButton type="danger" size="mini" @click="onDelete(item.id)"
+        >Delete</ElButton>
+      </div>
 
-      <ElButton type="danger" size="mini" @click="dialogVisible = true"
-        >Delete</ElButton
-      >
-      <ElDialog title="Delete" :visible.sync="dialogVisible" width="30%">
-        <span>Delete an item?</span>
-        <span slot="footer" class="dialog-footer">
-          <ElButton @click="dialogVisible = false">Cancel</ElButton>
-          <ElButton
-            type="primary"
-            @click="(dialogVisible = false), handleClose(item.id)"
-            >Confirm</ElButton
-          >
-        </span>
-      </ElDialog>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "BudgetListItem",
   props: {
@@ -37,14 +28,9 @@ export default {
       default: () => ({}),
     },
   },
-  data: () => ({
-    dialogVisible: false,
-  }),
   methods: {
-    handleClose(id) {
-      this.$emit("onDeleteItem", id);
-    },
-  },
+    ...mapActions("budgets", ["onDelete"]),
+  }
 };
 </script>
 

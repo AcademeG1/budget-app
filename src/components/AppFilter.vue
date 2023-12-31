@@ -2,19 +2,19 @@
   <div class="wrapper-button">
     <ElButton
       @click="onFilterSelect('outcome')"
-      :type="active === 'outcome' ? 'primary' : ''"
+      :type="getFilter === 'outcome' ? 'primary' : ''"
       plain
       >OUTCOME</ElButton
     >
     <ElButton
       @click="onFilterSelect('income')"
-      :type="active === 'income' ? 'primary' : ''"
+      :type="getFilter === 'income' ? 'primary' : ''"
       plain
       >INCOME</ElButton
     >
     <ElButton
       @click="onFilterSelect('all')"
-      :type="active === 'all' ? 'primary' : ''"
+      :type="getFilter === 'all' ? 'primary' : ''"
       plain
       >ALL</ElButton
     >
@@ -29,14 +29,10 @@ export default {
   name: "AppFilter",
   computed: {
     ...mapGetters("budgets", ["getFilter"]),
-    active: function () {
-      return this.getFilter;
-    },
   },
   methods: {
     ...mapActions("budgets", ["updateFilter"]),
     onFilterSelect(active) {
-      console.log(active);
       this.updateFilter(active);
     },
   },

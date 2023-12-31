@@ -19,7 +19,7 @@
 </template>
 
 <script>
-
+import {mapActions} from "vuex";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "FormA",
@@ -39,10 +39,16 @@ export default {
         }
     }),
     methods: {
+      ...mapActions('budgets', ['addNewSubmit']),
       onSubmit() {
         this.$refs.addItemForm.validate((valid) => {
           if (valid) {
-            this.$emit('submitForm', { ...this.formData });
+            const newObj = {
+              ...this.formData,
+              id: String(Math.random()),
+              value: this.formData.type === "OUTCOME" ? -this.formData.value : this.formData.value,
+            };
+            this.addNewSubmit(newObj);
             this.$refs.addItemForm.resetFields();
           }
         })

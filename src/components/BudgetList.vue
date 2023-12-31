@@ -2,7 +2,7 @@
   <div class="budget-list-wrap">
     <ElCard :header="header">
       <template v-if="isEmptyListItem">
-        <BudgetListItem :list="list" @onDeleteItem="deleteItem" />
+        <BudgetListItem @onDeleteItem="deleteItem" :list="list" />
       </template>
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false" />
     </ElCard>
@@ -11,29 +11,28 @@
 
 <script>
 import BudgetListItem from "./BudgetListItem.vue";
+import {mapGetters} from "vuex";
+import {mapActions} from "vuex";
 export default {
   name: "BudgetList",
   components: {
     BudgetListItem,
   },
-  props: {
-    list: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data: () => ({
     header: "Some text",
     emptyTitle: "List item empty",
   }),
-  computed: {
+  computed: { // возвращает значения
+    ...mapGetters('budgets', ['getList']),
+    list() { return this.getList },
     isEmptyListItem() {
       return Boolean(Object.keys(this.list).length);
     },
   },
   methods: {
+    ...mapActions('budgets', ['onDelete']),
     deleteItem(id) {
-      this.$emit("delete-Item", id);
+      this.onDelete(id);
     },
   },
 };

@@ -1,21 +1,19 @@
 <template>
   <div
     class="total-value"
-    :class="totalBalance > 0 ? 'green' : totalBalance < 0 ? 'red' : ''"
+    :class="getTotalBalance > 0 ? 'green' : getTotalBalance < 0 ? 'red' : ''"
   >
-    {{ totalBalance }}
+    {{ getTotalBalance }}
   </div>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
 export default {
   name: "TotalBalance",
-  props: {
-    totalBalance: {
-      type: Number,
-      default: 0,
-    },
-  },
+  computed: {
+    ...mapGetters('budgets', ['getTotalBalance']),
+  }
 };
 </script>
 

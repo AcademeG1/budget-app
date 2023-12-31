@@ -1,9 +1,7 @@
 import store from "./store";
-// import "./plugins/index.js";
 import App from "./App.vue";
 import { createApp } from "vue";
 import "element-plus/dist/index.css";
-// import "element-plus/theme-chalk/index.css";
 import {
   ElButton,
   ElCard,
