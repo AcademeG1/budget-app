@@ -2,7 +2,7 @@
   <div class="budget-list-wrap">
     <ElCard :header="header">
       <template v-if="isEmptyListItem">
-        <BudgetListItem @onDeleteItem="deleteItem" :list="list" />
+        <BudgetListItem @onDeleteItem="deleteItem" v-for="(item) in list" :key="item.id" :id="item.id" :value="item.value" :type="item.type" :comment="item.comment" />
       </template>
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false" />
     </ElCard>
